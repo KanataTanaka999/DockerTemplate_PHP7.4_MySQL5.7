@@ -7,6 +7,7 @@ services:
        - ./html:/var/www/html
     ports:
        - 8084:80
+       - 8443:443
     restart: always
   mysql:
     image: mysql:5.7
@@ -32,11 +33,7 @@ services:
       - ./phpmyadmin/sessions:/sessions
       - ./phpmyadmin/phpmyadmin-misc.ini:/usr/local/etc/php/conf.d/phpmyadmin-misc.ini
   mailhog:
-    build:
-      context: ./mailhog
+    image: mailhog/mailhog
     ports:
-      - target: 8025
-        published: 8025
-        protocol: tcp
-        mode: host
-
+     - 8025:8025
+     - 1025:1025

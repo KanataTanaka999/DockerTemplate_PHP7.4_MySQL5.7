@@ -11,6 +11,18 @@ RUN apt-get install -y \
   zlib1g-dev \
   libwebp-dev \
   ;
+# mailhogにメールを送信するため、mhsendmailをインストール
+RUN curl -sSL https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 -o mhsendmail \
+    && chmod +x mhsendmail \
+    && mv mhsendmail /usr/local/bin/mhsendmail
+
+# SSL
+COPY ./ssl/ssl.crt /etc/ssl/certs/
+COPY ./ssl/ssl.key /etc/ssl/private/
+RUN sed -i 's!/etc/ssl/certs/ssl-cert-snakeoil.pem!/etc/ssl/certs/ssl.crt!g' /etc/apache2/sites-available/default-ssl.conf \
+    && sed -i 's!/etc/ssl/private/ssl-cert-snakeoil.key!/etc/ssl/private/ssl.key!g' /etc/apache2/sites-available/default-ssl.conf
+RUN a2enmod ssl \
+    && a2ensite default-ssl.conf
 
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp
 RUN docker-php-ext-install zip gd mysqli pdo_mysql opcache intl
