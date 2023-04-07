@@ -14,11 +14,15 @@ git clone https://github.com/KanataTanaka999/DockerTemplate_PHP7.4_MySQL5.7.git
 docker-compose build
 ```
 
+or double click `build.command`.
+
 ### 3. Start docker container
 
 ```bash
 docker-compose up -d
 ```
+
+or double click `start.command`.
 
 ### 4. Access to localhost
 
@@ -38,3 +42,5 @@ http://localhost:8025
 ```bash
 docker-compose down
 ```
+
+or double click `stop.command`.
