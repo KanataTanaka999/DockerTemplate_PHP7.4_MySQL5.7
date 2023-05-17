@@ -23,6 +23,10 @@ RUN sed -i 's!/etc/ssl/certs/ssl-cert-snakeoil.pem!/etc/ssl/certs/ssl.crt!g' /et
     && sed -i 's!/etc/ssl/private/ssl-cert-snakeoil.key!/etc/ssl/private/ssl.key!g' /etc/apache2/sites-available/default-ssl.conf
 RUN a2enmod ssl \
     && a2ensite default-ssl.conf
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+  && chmod +x wp-cli.phar \
+  && mv wp-cli.phar /usr/local/bin/wp \
+  && wp --info
 
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp
 RUN docker-php-ext-install zip gd mysqli pdo_mysql opcache intl
